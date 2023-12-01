@@ -1,6 +1,7 @@
 #!/bin/python3
 
 import pygame
+from classes.Enemy import Enemy
 
 
 class Game:
@@ -12,6 +13,7 @@ class Game:
         self.game_clock = pygame.time.Clock()
         self.game_display = pygame.display.set_mode((800, 600))
         self.game_display.fill((0, 0, 0))
+        self.enemies = []
 
     def event_handler(self):
         for event in pygame.event.get():
@@ -19,9 +21,12 @@ class Game:
                 self.game_running = False
 
     def update_game(self):
-        pass
+        for enemy in self.enemies:
+            enemy.update_enemy()
 
     def render_game(self):
+        for enemy in self.enemies:
+            enemy.render_enemy(self.game_display)
         pygame.display.update()
 
     def game_loop(self):
@@ -30,7 +35,6 @@ class Game:
             self.update_game()
             self.render_game()
 
-            # this line is to ensure the game runs at 60 fps
             self.game_clock.tick(60)
 
     def launch_game(self):
