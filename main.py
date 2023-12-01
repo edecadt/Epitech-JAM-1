@@ -2,6 +2,9 @@
 
 import pygame
 
+import map
+from map import Map
+
 
 class Game:
     def __init__(self):
@@ -12,17 +15,32 @@ class Game:
         self.game_clock = pygame.time.Clock()
         self.game_display = pygame.display.set_mode((800, 600))
         self.game_display.fill((0, 0, 0))
+        self.map = Map()
+
+        # var that will be 0 is no key is being pressed to move on the map
+        self.x_to_move_on_map = 0
 
     def event_handler(self):
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 self.game_running = False
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_d:
+                    self.x_to_move_on_map = -5
+                if event.key == pygame.K_q:
+                    self.x_to_move_on_map = 5
+            if event.type == pygame.KEYUP:
+                if (event.key == pygame.K_d and self.x_to_move_on_map == -5) or \
+                        (event.key == pygame.K_q and self.x_to_move_on_map == 5):
+                    self.x_to_move_on_map = 0
 
     def update_game(self):
-        pass
+        self.map.update(self.x_to_move_on_map)
 
     def render_game(self):
-        pygame.display.update()
+        self.game_display.fill((0, 0, 0))
+        self.map.render(self.game_display)
+        pygame.display.flip()
 
     def game_loop(self):
         while self.game_running:
