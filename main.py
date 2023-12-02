@@ -3,11 +3,12 @@
 import pygame
 
 from map import Map
+import pygame as pg
 from enemy import Enemy
 from player import Player
 from color_map import ColorMap
 from menu import Menu
-
+from pygame import mixer
 
 class Game:
     def __init__(self):
@@ -98,6 +99,10 @@ class Game:
             self.game_clock.tick(60)
 
     def launch_game(self):
+        mixer.init(44100, -16, 2, 2048)
+        mixer.music.load('assets/super_epic_music.mp3')
+        mixer.music.play(-1)
+        pg.mixer.music.set_volume(.2)
         self.game_running = True
         self.game_loop()
         pygame.quit()
