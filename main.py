@@ -39,14 +39,14 @@ class Game:
 
     def update_game(self):
         self.map.update(self.x_to_move_on_map)
-        self.player.update_player()
+        # self.player.update_player()
         for enemy in self.enemies:
             enemy.update_enemy()
 
     def render_game(self):
         self.game_display.fill((0, 0, 0))
         self.map.render(self.game_display)
-        self.player.render_player(self.game_display)
+        # self.player.render_player(self.game_display)
         for enemy in self.enemies:
             enemy.render_enemy(self.game_display)
         pygame.display.flip()
