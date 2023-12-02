@@ -4,6 +4,7 @@ import pygame
 
 from map import Map
 from enemy import Enemy
+from player import Player
 
 
 class Game:
@@ -20,6 +21,7 @@ class Game:
         # var that will be 0 is no key is being pressed to move on the map
         self.x_to_move_on_map = 0
         self.enemies = []
+        self.player = None
 
     def event_handler(self):
         for event in pygame.event.get():
@@ -37,12 +39,14 @@ class Game:
 
     def update_game(self):
         self.map.update(self.x_to_move_on_map)
+        self.player.update_player()
         for enemy in self.enemies:
             enemy.update_enemy()
 
     def render_game(self):
         self.game_display.fill((0, 0, 0))
         self.map.render(self.game_display)
+        self.player.render_player(self.game_display)
         for enemy in self.enemies:
             enemy.render_enemy(self.game_display)
         pygame.display.flip()
