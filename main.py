@@ -58,6 +58,10 @@ class Game:
                         self.menu.current_player = 0
 
     def update_game(self):
+        if self.x_to_move_on_map < 0 and self.color_map.image.get_at((-1 * self.color_map.map_x + self.player.x + 100, self.player.y + 99))[0] != 0:
+            self.player.is_alive = False
+        if self.x_to_move_on_map > 0 and self.color_map.image.get_at((-1 * self.color_map.map_x + self.player.x - 5, self.player.y + 99))[0] != 0:
+            self.player.is_alive = False
         # collision between player and objects on its right (width -> 100, height -> 100)
         if self.x_to_move_on_map < 0 and self.color_map.image.get_at((-1 * self.color_map.map_x + self.player.x + 100, self.player.y + 99))[1] != 0:
             self.x_to_move_on_map = 0
@@ -72,6 +76,8 @@ class Game:
             self.menu.update()
         elif self.state == "game":
             self.player.update_player()
+            if not self.player.is_alive:
+                self.state = "game_over"
             for enemy in self.enemies:
                 enemy.update_enemy()
 
@@ -86,6 +92,8 @@ class Game:
             self.player.render_player(self.game_display)
             for enemy in self.enemies:
                 enemy.render_enemy(self.game_display)
+        elif self.state == "game_over":
+            self.game_display.blit(self.menu.game_over, (400 - 466 / 4, 400))
         pygame.display.flip()
 
     def game_loop(self):
