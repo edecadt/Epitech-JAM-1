@@ -1,0 +1,16 @@
+[
+  {
+    "name": "Kick-Off Sokoban",
+    "texture": "assets/enemy_sokoban_kickoff.png",
+    "position": {
+      "x": 600,
+      "y": 430
+    },
+    "health": 100,
+    "size": {
+      "width": 100,
+      "height": 100
+    },
+    "is_optional": false
+  }
+]

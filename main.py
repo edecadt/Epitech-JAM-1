@@ -1,6 +1,7 @@
 #!/bin/python3
 
 import pygame
+import json
 
 from map import Map
 import pygame as pg
@@ -9,6 +10,7 @@ from player import Player
 from color_map import ColorMap
 from menu import Menu
 from pygame import mixer
+
 
 class Game:
     def __init__(self):
@@ -58,29 +60,38 @@ class Game:
                     else:
                         self.menu.current_player = 0
 
+            if event.type == pygame.MOUSEBUTTONUP:
+                for enemy in self.enemies:
+                    enemy.enemy_rect.topleft = (enemy.x + self.map.map_x, enemy.y)
+                    if (enemy.enemy_rect.collidepoint(event.pos) and self.state == "game" and (enemy.x + self.map.map_x)
+                            - self.player.x - 100 < 50):
+                        enemy.damage_enemy(self.player.attack_damage)
+                        if not enemy.is_alive:
+                            self.enemies.remove(enemy)
+
     def update_game(self):
         # collision between player and objects on its right (width -> 100, height -> 100)
-        if self.x_to_move_on_map < 0 and self.color_map.image.get_at((-1 * self.color_map.map_x + self.player.x + 100, self.player.y + 99))[1] != 0:
+        if self.x_to_move_on_map < 0 and \
+                self.color_map.image.get_at((-1 * self.color_map.map_x + self.player.x + 100, self.player.y + 99))[
+                    1] != 0:
             self.x_to_move_on_map = 0
         # collision between player and objects on its left (width -> 100, height -> 100)
-        if self.x_to_move_on_map > 0 and self.color_map.image.get_at((-1 * self.color_map.map_x + self.player.x - 5, self.player.y + 99))[1] != 0:
+        if self.x_to_move_on_map > 0 and \
+                self.color_map.image.get_at((-1 * self.color_map.map_x + self.player.x - 5, self.player.y + 99))[
+                    1] != 0:
             self.x_to_move_on_map = 0
         self.map.update(self.x_to_move_on_map)
         self.color_map.update(self.x_to_move_on_map)
-        for enemy in self.enemies:
-            enemy.update_enemy()
         if self.state == "menu":
             self.menu.update()
         elif self.state == "game":
             self.player.update_player()
             for enemy in self.enemies:
-                enemy.update_enemy()
+                enemy.update_enemy(self.player)
 
     def render_game(self):
         self.game_display.fill((0, 0, 0))
         self.map.render(self.game_display)
-        for enemy in self.enemies:
-            enemy.render_enemy(self.game_display)
         if self.state == "menu":
             self.menu.render_menu(self.game_display)
         elif self.state == "game":
@@ -108,5 +119,9 @@ class Game:
         pygame.quit()
 
 
+enemies_data = json.load(open("assets/enemy.json"))
 game = Game()
+for enemy in enemies_data:
+    game.enemies.append(Enemy(game.map, enemy["position"]["x"], enemy["position"]["y"], enemy["size"]["width"], enemy["size"]["height"],
+                              enemy["is_optional"], enemy["texture"], enemy["health"]))
 game.launch_game()
