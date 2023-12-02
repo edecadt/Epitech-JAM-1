@@ -1,42 +1,42 @@
 [
   {
-    "name": "Edgar",
-    "texture": "assets/menu_edgar_idle.png",
-    "stat": {
-
-    }
-  },
-  {
     "name": "Enzo",
-    "texture": "assets/menu_enzo_idle.png",
-    "stat": {
-
-    }
-  },
-  {
-    "name": "William",
-    "texture": "assets/menu_edgar_idle.png",
-    "stat": {
-
-    }
-  },
-  {
-    "name": "Jean-Baptiste",
-    "texture": "assets/menu_edgar_idle.png",
-    "stat": {
-
-    }
-  },
-  {
-    "name": "Lenny",
-    "texture": "assets/menu_edgar_idle.png",
+    "texture": "assets/spriteenzo.png",
     "stat": {
 
     }
   },
   {
     "name": "Ezio",
-    "texture": "assets/menu_ezio_idle.png",
+    "texture": "assets/spritesezio.png",
+    "stat": {
+
+    }
+  },
+  {
+    "name": "Edgar",
+    "texture": "assets/spritesedgar.png",
+    "stat": {
+
+    }
+  },
+  {
+    "name": "William",
+    "texture": "assets/spriteswilliam.png",
+    "stat": {
+
+    }
+  },
+  {
+    "name": "Jean-Baptiste",
+    "texture": "assets/spritesjb.png",
+    "stat": {
+
+    }
+  },
+  {
+    "name": "Ezio",
+    "texture": "assets/spritesjb.png",
     "stat": {
 
     }

@@ -24,7 +24,9 @@ class Game:
         self.color_map = ColorMap()
         self.state = "menu"
         self.menu = Menu()
+        self.start_button_clicked = 0
         self.game_starting_tick = 0
+        self.start_button_clicked_time = 0
         self.timer = Timer()
 
         # var that will be 0 is no key is being pressed to move on the map
@@ -33,6 +35,9 @@ class Game:
         self.player = Player(100, 430, 100, 100, 'assets/player.png', 10)
 
     def event_handler(self):
+
+        current_tick = pygame.time.get_ticks()
+
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 self.game_running = False
@@ -47,8 +52,7 @@ class Game:
                     self.x_to_move_on_map = 0
             if event.type == pygame.MOUSEBUTTONDOWN:
                 if self.menu.start_button_rect.collidepoint(event.pos):
-                    self.state = "game"
-                    self.game_starting_tick = pygame.time.get_ticks()
+                    self.start_button_clicked_time = current_tick
 
                 if self.menu.right_arrow_rect.collidepoint(event.pos):
                     if self.menu.current_player > 0:
@@ -76,8 +80,13 @@ class Game:
         self.color_map.update(self.x_to_move_on_map)
         for enemy in self.enemies:
             enemy.update_enemy()
-        if self.state == "menu":
-            self.menu.update()
+        if self.state == "menu" and self.start_button_clicked_time > 0:
+            self.start_button_clicked = 1
+
+            if current_tick - self.start_button_clicked_time >= 2000:
+                self.state = "game"
+                self.game_starting_tick = current_tick
+                self.start_button_clicked_time = 0
         elif self.state == "game":
             self.player.update_player()
             for enemy in self.enemies:
@@ -90,7 +99,7 @@ class Game:
         for enemy in self.enemies:
             enemy.render_enemy(self.game_display)
         if self.state == "menu":
-            self.menu.render_menu(self.game_display)
+            self.menu.render_menu(self.game_display, self.start_button_clicked)
         elif self.state == "game":
             self.player.render_player(self.game_display)
             for enemy in self.enemies:
