@@ -30,7 +30,6 @@ class Game:
             if event.type == pygame.QUIT:
                 self.game_running = False
             if event.type == pygame.KEYDOWN:
-                print(self.color_map.image.get_at((self.player.x - 5, self.player.y))[2])
                 if event.key == pygame.K_d:
                     self.x_to_move_on_map = -5
                 if event.key == pygame.K_q:
