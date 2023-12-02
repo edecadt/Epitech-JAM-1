@@ -2,9 +2,8 @@
 
 import pygame
 
-from classes.Enemy import Enemy
-import map
 from map import Map
+from enemy import Enemy
 
 
 class Game:
@@ -44,10 +43,9 @@ class Game:
     def render_game(self):
         self.game_display.fill((0, 0, 0))
         self.map.render(self.game_display)
-        pygame.display.flip()
         for enemy in self.enemies:
             enemy.render_enemy(self.game_display)
-        pygame.display.update()
+        pygame.display.flip()
 
     def game_loop(self):
         while self.game_running:

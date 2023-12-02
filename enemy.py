@@ -2,7 +2,7 @@ import pygame
 
 
 class Enemy(pygame.sprite.Sprite):
-    def __init__(self, x, y, is_optional, texture):
+    def __init__(self, x, y, width, height, is_optional, texture):
         super().__init__()
         self.x = x
         self.y = y
@@ -15,6 +15,7 @@ class Enemy(pygame.sprite.Sprite):
         self.enemy_clock = pygame.time.Clock()
         self.animation_start_time = pygame.time.get_ticks()
         self.animation_interval = 500
+        self.texture = pygame.transform.scale(self.texture, (width, height))
 
     def update_enemy(self):
         current_time = pygame.time.get_ticks()
