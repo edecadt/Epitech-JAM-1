@@ -2,15 +2,17 @@ import pygame
 
 
 class Player(pygame.sprite.Sprite):
-    def __init__(self, x, y, width, height, texture, texture2, attack_damage, color_map):
+    def __init__(self, x, y, width, height, texture, texture2, attack_damage, color_map, speed, jump_height, health):
         super().__init__()
+        self.jump_height = jump_height
+        self.speed = speed
         self.reverse = 0
         self.color_map = color_map
         self.init_y = y
         self.x = x
         self.y = y
         self.health = 100
-        self.max_health = 100
+        self.max_health = health
         self.is_alive = True
         self.texture = pygame.image.load(texture)
         self.texture2 = pygame.image.load(texture2)
@@ -19,6 +21,7 @@ class Player(pygame.sprite.Sprite):
         self.jump_velocity = 0
         self.is_jumping = 0
         self.jump_moment = 0
+        self.can_move = 1
 
         self.player_clock = pygame.time.Clock()
         self.animation_start_time = pygame.time.get_ticks()
@@ -48,13 +51,16 @@ class Player(pygame.sprite.Sprite):
         self.health -= damage
         if self.health <= 0:
             self.is_alive = False
+            return
+        self.x -= self.speed * 5
+        self.can_move = 0
 
     def jump_setup(self):
         if self.is_jumping:
             return
         self.jump_moment = pygame.time.get_ticks() / 60
         self.is_jumping = 1
-        self.jump_velocity = 65
+        self.jump_velocity = self.jump_height
 
     def next_y(self, time):
         return int((4.91 * (time ** 2) - self.jump_velocity * time) + self.init_y)

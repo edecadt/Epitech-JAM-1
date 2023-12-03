@@ -35,7 +35,7 @@ class Game:
         # var that will be 0 is no key is being pressed to move on the map
         self.x_to_move_on_map = 0
         self.enemies = []
-        self.player = Player(100, 430, 40, 100, 'assets/player.png', 'assets/player.png', 10, self.color_map)
+        self.player = Player(100, 430, 40, 100, 'assets/player.png', 'assets/player.png', 10, self.color_map, 5, 60, 100)
 
     def event_handler(self):
 
@@ -49,13 +49,13 @@ class Game:
                     self.player.jump_setup()
                 if event.key == pygame.K_d and self.state == "game":
                     self.player.reverse = 0
-                    self.x_to_move_on_map = -5
+                    self.x_to_move_on_map = -self.player.speed
                 if event.key == pygame.K_q and self.state == "game":
                     self.player.reverse = 1
-                    self.x_to_move_on_map = 5
+                    self.x_to_move_on_map = self.player.speed
             if event.type == pygame.KEYUP:
-                if (event.key == pygame.K_d and self.x_to_move_on_map == -5) or \
-                        (event.key == pygame.K_q and self.x_to_move_on_map == 5) and self.state == "game":
+                if (event.key == pygame.K_d and self.x_to_move_on_map == -self.player.speed) or \
+                        (event.key == pygame.K_q and self.x_to_move_on_map == self.player.speed) and self.state == "game":
                     self.x_to_move_on_map = 0
             if event.type == pygame.MOUSEBUTTONDOWN:
                 if self.menu.start_button_rect.collidepoint(event.pos):
@@ -81,6 +81,9 @@ class Game:
                         enemy.damage_enemy(self.player.attack_damage)
 
     def update_game(self):
+        if self.player.can_move == 0:
+            self.x_to_move_on_map = 0
+            self.player.can_move = 1
         if self.player.y > 200:
             if self.color_map.image.get_at((-1 * self.color_map.map_x + self.player.x - 5, self.player.y + 130))[0] != 0:
                 self.player.is_alive = False
@@ -95,6 +98,9 @@ class Game:
         if self.state == "menu" and self.start_button_clicked_time > 0:
             self.player.texture = pygame.image.load(self.player_data[self.menu.current_player]["move_texture1"])
             self.player.texture2 = pygame.image.load(self.player_data[self.menu.current_player]["move_texture2"])
+            self.player.speed = self.player_data[self.menu.current_player]["stat"]["speed"]
+            self.player.jump_height = self.player_data[self.menu.current_player]["stat"]["jump"]
+            self.player.health = self.player_data[self.menu.current_player]["stat"]["health"] * 100
             self.start_button_clicked = 1
 
             if current_tick - self.start_button_clicked_time >= 2000:
