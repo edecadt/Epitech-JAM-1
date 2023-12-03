@@ -24,8 +24,8 @@ class Enemy(pygame.sprite.Sprite):
         self.enemy_rect.topleft = (self.x, self.y)
 
     def update_enemy(self, player):
-        if (player.x >= self.x + self.map.map_x - self.width and
-                self.y - self.height <= player.y <= self.y + self.height and self.is_alive):
+        if ((self.x + self.map.map_x - self.width <= player.x <= self.x + self.map.map_x + self.width) and
+                (self.y - self.height <= player.y <= self.y + self.height and self.is_alive)):
             player.damage_player(100)
 
     def draw_health_bar(self, screen):
