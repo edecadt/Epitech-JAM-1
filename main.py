@@ -67,8 +67,8 @@ class Game:
             if event.type == pygame.MOUSEBUTTONUP:
                 for enemy in self.enemies:
                     enemy.enemy_rect.topleft = (enemy.x + self.map.map_x, enemy.y)
-                    if (enemy.enemy_rect.collidepoint(event.pos) and self.state == "game" and (enemy.x + self.map.map_x)
-                            - self.player.x - 100 < 50):
+                    if ((enemy.enemy_rect.collidepoint(event.pos) and self.state == "game" and (enemy.x + self.map.map_x)
+                            - self.player.x - 100 < 50)) and self.player.y <= enemy.y >= self.player.y:
                         enemy.damage_enemy(self.player.attack_damage)
                         if not enemy.is_alive:
                             self.enemies.remove(enemy)
