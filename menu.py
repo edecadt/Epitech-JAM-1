@@ -16,6 +16,7 @@ class Menu(pygame.sprite.Sprite):
         self.selection_rect = pygame.Rect(175, 100, 50, 50)
         self.game_over = pygame.image.load("assets/game_over.png")
         self.victory = pygame.image.load("assets/victory.png")
+        self.replay = pygame.image.load("assets/replay.png")
 
         for player in self.players:
             player["sprite"] = pygame.image.load(player["texture"])
@@ -38,6 +39,10 @@ class Menu(pygame.sprite.Sprite):
         self.game_over = pygame.transform.scale(self.game_over, (348, 236))
 
         self.victory = pygame.transform.scale(self.victory, (1500 / 6, 577 / 6))
+
+        self.replay = pygame.transform.scale(self.replay, (1264 / 3, 254 / 3))
+        self.replay_rect = self.replay.get_rect()
+        self.replay_rect.topleft = (400 - ((1264 / 3) / 2), 450 - ((254 / 3) / 2))
 
     def update_menu(self):
         pass
