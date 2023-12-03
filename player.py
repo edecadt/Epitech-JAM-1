@@ -81,13 +81,15 @@ class Player(pygame.sprite.Sprite):
         # Check collision under
         if self.is_green(-self.color_map.map_x + self.x, self.next_y(time) + 99) or \
                 self.is_green(-self.color_map.map_x + self.x + 99, self.next_y(time) + 99):
+            self.is_jumping = 0
+            self.jump_moment = time
+            self.jump_velocity = 0
             for i in range(self.y, 432):
                 if self.is_green(-self.color_map.map_x + self.x, i + 99) or \
                         self.is_green(-self.color_map.map_x + self.x + 99, i + 99):
                     self.y = i - 1
                     self.init_y = i - 1
                     break
-            self.is_jumping = 0
             return
 
         # Check collision above
