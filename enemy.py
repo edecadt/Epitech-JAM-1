@@ -13,7 +13,9 @@ class Enemy(pygame.sprite.Sprite):
         self.is_alive = True
         self.is_optional = is_optional
         self.texture = pygame.image.load(texture)
-        self.animation_state = False
+        self.texture_on_death = pygame.image.load("assets/register.png")
+        self.texture_on_death = pygame.transform.scale2x(self.texture_on_death)
+        self.death_tick = 0
 
         self.map = map
         self.enemy_clock = pygame.time.Clock()
@@ -41,8 +43,12 @@ class Enemy(pygame.sprite.Sprite):
         pygame.draw.rect(screen, bar_color, (bar_x, bar_y, bar_width * health_percentage, bar_height))
 
     def render_enemy(self, screen):
-        self.draw_health_bar(screen)
-        screen.blit(self.texture, (self.x + self.map.map_x, self.y))
+        if self.is_alive:
+            self.draw_health_bar(screen)
+            screen.blit(self.texture, (self.x + self.map.map_x, self.y))
+        elif self.death_tick < 120:
+            screen.blit(self.texture_on_death, (self.x + self.map.map_x, self.y + 50))
+            self.death_tick += 1
 
     def damage_enemy(self, damage):
         self.health -= damage

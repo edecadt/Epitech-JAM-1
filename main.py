@@ -76,8 +76,6 @@ class Game:
                     if ((enemy.enemy_rect.collidepoint(event.pos) and self.state == "game" and (enemy.x + self.map.map_x)
                             - self.player.x - 100 < 50)) and self.player.y <= enemy.y >= self.player.y:
                         enemy.damage_enemy(self.player.attack_damage)
-                        if not enemy.is_alive:
-                            self.enemies.remove(enemy)
 
     def update_game(self):
         if self.player.y > 200:
@@ -87,16 +85,9 @@ class Game:
             if self.color_map.image.get_at((-1 * self.color_map.map_x + self.player.x + 100, self.player.y + 130))[2] != 0:
                 self.state = "winning"
         current_tick = pygame.time.get_ticks()
-        if self.player.y >= 10:
-            # collision between player and objects on its right (width -> 100, height -> 100)
-            if self.x_to_move_on_map < 0 and self.color_map.image.get_at((-1 * self.color_map.map_x + self.player.x + 100, self.player.y + 99))[1] != 0:
-                self.x_to_move_on_map = 0
-            # collision between player and objects on its left (width -> 100, height -> 100)
-            if self.x_to_move_on_map > 0 and self.color_map.image.get_at((-1 * self.color_map.map_x + self.player.x - 5, self.player.y + 99))[1] != 0:
-                self.x_to_move_on_map = 0
         self.player.jump()
-        self.map.update(self.x_to_move_on_map)
-        self.color_map.update(self.x_to_move_on_map)
+        self.map.update(self.x_to_move_on_map, self.player, self.color_map)
+        self.color_map.update(self.x_to_move_on_map, self.player)
         for enemy in self.enemies:
             enemy.update_enemy(self.player)
         if self.state == "menu" and self.start_button_clicked_time > 0:

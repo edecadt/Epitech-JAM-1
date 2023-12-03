@@ -12,7 +12,14 @@ class ColorMap:
         self.image = pygame.transform.scale(self.image, (int(self.image_rect.width * 2.5),
                                                          int(self.image_rect.height * 2.5)))
 
-    def update(self, x_to_move):
+    def update(self, x_to_move, player):
+        if player.y >= 10:
+            # collision between player and objects on its right (width -> 100, height -> 100)
+            if x_to_move < 0 and self.image.get_at((-self.map_x + player.x + 100, player.y + 99))[1] != 0:
+                return
+            # collision between player and objects on its left (width -> 100, height -> 100)
+            if x_to_move > 0 and self.image.get_at((-self.map_x + player.x - 5, player.y + 99))[1] != 0:
+                return
         if x_to_move == 0:
             return
         self.map_x += x_to_move
