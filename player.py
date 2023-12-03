@@ -4,6 +4,7 @@ import pygame
 class Player(pygame.sprite.Sprite):
     def __init__(self, x, y, width, height, texture, attack_damage, color_map):
         super().__init__()
+        self.reverse = 0
         self.color_map = color_map
         self.init_y = y
         self.x = x
@@ -34,6 +35,9 @@ class Player(pygame.sprite.Sprite):
         self.player_clock.tick(60)
 
     def render_player(self, screen):
+        if self.reverse == 1:
+            screen.blit(pygame.transform.flip(self.texture, True, False), (self.x, self.y))
+            return
         screen.blit(self.texture, (self.x, self.y))
 
     def damage_player(self, damage):
