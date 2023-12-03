@@ -81,7 +81,6 @@ class Game:
 
     def update_game(self):
         if self.player.y > 200:
-            print(self.color_map.image.get_at((-1 * self.color_map.map_x + self.player.x - 5, self.player.y + 130)))
             if self.color_map.image.get_at((-1 * self.color_map.map_x + self.player.x - 5, self.player.y + 130))[0] != 0:
                 self.player.is_alive = False
             if self.color_map.image.get_at((-1 * self.color_map.map_x + self.player.x + 100, self.player.y + 130))[2] != 0:
