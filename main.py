@@ -34,7 +34,7 @@ class Game:
         # var that will be 0 is no key is being pressed to move on the map
         self.x_to_move_on_map = 0
         self.enemies = []
-        self.player = Player(100, 430, 100, 100, 'assets/player.png', 10)
+        self.player = Player(100, 430, 100, 100, 'assets/player.png', 10, self.color_map)
 
     def event_handler(self):
 
@@ -44,6 +44,8 @@ class Game:
             if event.type == pygame.QUIT:
                 self.game_running = False
             if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_SPACE and self.state == "game":
+                    self.player.jump_setup()
                 if event.key == pygame.K_d and self.state == "game":
                     self.x_to_move_on_map = -5
                 if event.key == pygame.K_q and self.state == "game":
@@ -78,23 +80,19 @@ class Game:
                             self.enemies.remove(enemy)
 
     def update_game(self):
-        if self.x_to_move_on_map < 0 and self.color_map.image.get_at((-1 * self.color_map.map_x + self.player.x + 100, self.player.y + 99))[0] != 0:
-            self.player.is_alive = False
-        if self.x_to_move_on_map > 0 and self.color_map.image.get_at((-1 * self.color_map.map_x + self.player.x - 5, self.player.y + 99))[0] != 0:
-            self.player.is_alive = False
+        if self.player.y > 200:
+            if self.color_map.image.get_at((-1 * self.color_map.map_x + self.player.x - 5, self.player.y + 130))[0] != 0:
+                self.player.is_alive = False
 
         current_tick = pygame.time.get_ticks()
-
-        # collision between player and objects on its right (width -> 100, height -> 100)
-        if self.x_to_move_on_map < 0 and \
-                self.color_map.image.get_at((-1 * self.color_map.map_x + self.player.x + 100, self.player.y + 99))[
-                    1] != 0:
-            self.x_to_move_on_map = 0
-        # collision between player and objects on its left (width -> 100, height -> 100)
-        if self.x_to_move_on_map > 0 and \
-                self.color_map.image.get_at((-1 * self.color_map.map_x + self.player.x - 5, self.player.y + 99))[
-                    1] != 0:
-            self.x_to_move_on_map = 0
+        if self.player.y >= 10:
+            # collision between player and objects on its right (width -> 100, height -> 100)
+            if self.x_to_move_on_map < 0 and self.color_map.image.get_at((-1 * self.color_map.map_x + self.player.x + 100, self.player.y + 99))[1] != 0:
+                self.x_to_move_on_map = 0
+            # collision between player and objects on its left (width -> 100, height -> 100)
+            if self.x_to_move_on_map > 0 and self.color_map.image.get_at((-1 * self.color_map.map_x + self.player.x - 5, self.player.y + 99))[1] != 0:
+                self.x_to_move_on_map = 0
+        self.player.jump()
         self.map.update(self.x_to_move_on_map)
         self.color_map.update(self.x_to_move_on_map)
         for enemy in self.enemies:
@@ -107,7 +105,7 @@ class Game:
                 self.game_starting_tick = current_tick
                 self.start_button_clicked_time = 0
         #if self.state == "menu":
-         #   self.menu.update()
+        #   self.menu.update()
         elif self.state == "game":
             self.player.update_player()
             if not self.player.is_alive:
