@@ -1,0 +1,58 @@
+[
+  {
+    "name": "Kick-Off Sokoban",
+    "texture": "assets/enemy_sokoban_kickoff.png",
+    "position": {
+      "x": 1400,
+      "y": 430
+    },
+    "health": 100,
+    "size": {
+      "width": 100,
+      "height": 100
+    },
+    "is_optional": false
+  },
+  {
+    "name": "Kick-Off MyLS",
+    "texture": "assets/enemy_my_ls.png",
+    "position": {
+      "x": 860,
+      "y": 273
+    },
+    "health": 75,
+    "size": {
+      "width": 100,
+      "height": 100
+    },
+    "is_optional": false
+  },
+  {
+    "name": "Project Organized",
+    "texture": "assets/enemy_organized.png",
+    "position": {
+      "x": 620,
+      "y": 430
+    },
+    "health": 150,
+    "size": {
+      "width": 100,
+      "height": 100
+    },
+    "is_optional": true
+  },
+  {
+    "name": "Project MyHunter",
+    "texture": "assets/enemy_myhunter.png",
+    "position": {
+      "x": 2200,
+      "y": 430
+    },
+    "health": 150,
+    "size": {
+      "width": 100,
+      "height": 100
+    },
+    "is_optional": true
+  }
+]
