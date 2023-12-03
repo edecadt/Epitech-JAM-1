@@ -76,8 +76,6 @@ class Game:
                     if ((enemy.enemy_rect.collidepoint(event.pos) and self.state == "game" and (enemy.x + self.map.map_x)
                             - self.player.x - 100 < 50)) and self.player.y <= enemy.y >= self.player.y:
                         enemy.damage_enemy(self.player.attack_damage)
-                        if not enemy.is_alive:
-                            self.enemies.remove(enemy)
 
     def update_game(self):
         if self.player.y > 200:
