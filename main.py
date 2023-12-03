@@ -102,7 +102,13 @@ class Game:
             if self.color_map.image.get_at((-1 * self.color_map.map_x + self.player.x - 5, self.player.y + 130))[0] != 0:
                 self.player.is_alive = False
             if self.color_map.image.get_at((-1 * self.color_map.map_x + self.player.x + 40, self.player.y + 130))[2] != 0:
-                self.state = "winning"
+                if self.state == "winning":
+                    pass
+                else:
+                    self.state = "winning"
+                    with open("assets/best.txt", 'w') as file:
+                        file.write(str(pygame.time.get_ticks() - self.game_starting_tick))
+                    self.timer = Timer()
         current_tick = pygame.time.get_ticks()
         self.player.jump()
         self.map.update(self.x_to_move_on_map, self.player, self.color_map)
