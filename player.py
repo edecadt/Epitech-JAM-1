@@ -4,6 +4,7 @@ import pygame
 class Player(pygame.sprite.Sprite):
     def __init__(self, x, y, width, height, texture, attack_damage, color_map):
         super().__init__()
+        self.reverse = 0
         self.color_map = color_map
         self.init_y = y
         self.x = x
@@ -34,6 +35,9 @@ class Player(pygame.sprite.Sprite):
         self.player_clock.tick(60)
 
     def render_player(self, screen):
+        if self.reverse == 1:
+            screen.blit(pygame.transform.flip(self.texture, True, False), (self.x, self.y))
+            return
         screen.blit(self.texture, (self.x, self.y))
 
     def damage_player(self, damage):
@@ -81,13 +85,15 @@ class Player(pygame.sprite.Sprite):
         # Check collision under
         if self.is_green(-self.color_map.map_x + self.x, self.next_y(time) + 99) or \
                 self.is_green(-self.color_map.map_x + self.x + 99, self.next_y(time) + 99):
+            self.is_jumping = 0
+            self.jump_moment = time
+            self.jump_velocity = 0
             for i in range(self.y, 432):
                 if self.is_green(-self.color_map.map_x + self.x, i + 99) or \
                         self.is_green(-self.color_map.map_x + self.x + 99, i + 99):
                     self.y = i - 1
                     self.init_y = i - 1
                     break
-            self.is_jumping = 0
             return
 
         # Check collision above

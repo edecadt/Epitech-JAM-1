@@ -47,8 +47,10 @@ class Game:
                 if event.key == pygame.K_SPACE and self.state == "game":
                     self.player.jump_setup()
                 if event.key == pygame.K_d and self.state == "game":
+                    self.player.reverse = 0
                     self.x_to_move_on_map = -5
                 if event.key == pygame.K_q and self.state == "game":
+                    self.player.reverse = 1
                     self.x_to_move_on_map = 5
             if event.type == pygame.KEYUP:
                 if (event.key == pygame.K_d and self.x_to_move_on_map == -5) or \
@@ -76,25 +78,17 @@ class Game:
                     if ((enemy.enemy_rect.collidepoint(event.pos) and self.state == "game" and (enemy.x + self.map.map_x)
                             - self.player.x - 100 < 50)) and self.player.y <= enemy.y >= self.player.y:
                         enemy.damage_enemy(self.player.attack_damage)
-                        if not enemy.is_alive:
-                            self.enemies.remove(enemy)
 
     def update_game(self):
         if self.player.y > 200:
             if self.color_map.image.get_at((-1 * self.color_map.map_x + self.player.x - 5, self.player.y + 130))[0] != 0:
                 self.player.is_alive = False
-
+            if self.color_map.image.get_at((-1 * self.color_map.map_x + self.player.x + 100, self.player.y + 130))[2] != 0:
+                self.state = "winning"
         current_tick = pygame.time.get_ticks()
-        if self.player.y >= 10:
-            # collision between player and objects on its right (width -> 100, height -> 100)
-            if self.x_to_move_on_map < 0 and self.color_map.image.get_at((-1 * self.color_map.map_x + self.player.x + 100, self.player.y + 99))[1] != 0:
-                self.x_to_move_on_map = 0
-            # collision between player and objects on its left (width -> 100, height -> 100)
-            if self.x_to_move_on_map > 0 and self.color_map.image.get_at((-1 * self.color_map.map_x + self.player.x - 5, self.player.y + 99))[1] != 0:
-                self.x_to_move_on_map = 0
         self.player.jump()
-        self.map.update(self.x_to_move_on_map)
-        self.color_map.update(self.x_to_move_on_map)
+        self.map.update(self.x_to_move_on_map, self.player, self.color_map)
+        self.color_map.update(self.x_to_move_on_map, self.player)
         for enemy in self.enemies:
             enemy.update_enemy(self.player)
         if self.state == "menu" and self.start_button_clicked_time > 0:
@@ -127,6 +121,15 @@ class Game:
         elif self.state == "game_over":
             
             self.game_display.blit(self.menu.game_over, (400 - (348 / 2), 300 - (236 / 2)))
+        elif self.state == "winning":
+            all_enemies_die = 1
+            for enemy in self.enemies:
+                if enemy.is_alive and not enemy.is_optional:
+                    all_enemies_die = 0
+            if all_enemies_die:
+                self.game_display.blit(self.menu.victory, (400 - ((1500 / 6) / 2), 300 - ((577 / 6) / 2)))
+            else:
+                self.game_display.blit(self.menu.game_over, (400 - (348 / 2), 300 - (236 / 2)))
         self.timer.render(self.game_display)
         pygame.display.flip()
 
