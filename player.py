@@ -2,7 +2,7 @@ import pygame
 
 
 class Player(pygame.sprite.Sprite):
-    def __init__(self, x, y, width, height, texture, attack_damage, color_map):
+    def __init__(self, x, y, width, height, texture, texture2, attack_damage, color_map):
         super().__init__()
         self.reverse = 0
         self.color_map = color_map
@@ -13,6 +13,7 @@ class Player(pygame.sprite.Sprite):
         self.max_health = 100
         self.is_alive = True
         self.texture = pygame.image.load(texture)
+        self.texture2 = pygame.image.load(texture2)
         self.animation_state = False
         self.attack_damage = attack_damage
         self.jump_velocity = 0
@@ -21,14 +22,17 @@ class Player(pygame.sprite.Sprite):
 
         self.player_clock = pygame.time.Clock()
         self.animation_start_time = pygame.time.get_ticks()
-        self.animation_interval = 500
+        self.animation_interval = 200
         self.texture = pygame.transform.scale(self.texture, (width, height))
 
-    def update_player(self):
+    def update_player(self, x_to_move):
         current_time = pygame.time.get_ticks()
 
         elapsed_time = current_time - self.animation_start_time
-        if elapsed_time >= self.animation_interval:
+        if elapsed_time >= self.animation_interval and x_to_move != 0:
+            tmp = self.texture
+            self.texture = self.texture2
+            self.texture2 = tmp
             self.animation_start_time = current_time
 
         # TODO: Add animation here
@@ -71,10 +75,10 @@ class Player(pygame.sprite.Sprite):
             self.jump_moment = time
             self.jump_velocity = 0
             if self.is_green(-self.color_map.map_x + self.x, self.y + 20 + 99) or \
-                    self.is_green(-self.color_map.map_x + self.x + 99, self.y + 20 + 99):
+                    self.is_green(-self.color_map.map_x + self.x + 39, self.y + 20 + 99):
                 for i in range(self.y, 432):
                     if self.is_green(-1 * self.color_map.map_x + self.x, i + 99) or \
-                            self.is_green(-self.color_map.map_x + self.x + 99, i + 99):
+                            self.is_green(-self.color_map.map_x + self.x + 39, i + 99):
                         self.y = i - 1
                         self.init_y = i - 1
                         return
@@ -84,13 +88,13 @@ class Player(pygame.sprite.Sprite):
 
         # Check collision under
         if self.is_green(-self.color_map.map_x + self.x, self.next_y(time) + 99) or \
-                self.is_green(-self.color_map.map_x + self.x + 99, self.next_y(time) + 99):
+                self.is_green(-self.color_map.map_x + self.x + 39, self.next_y(time) + 99):
             self.is_jumping = 0
             self.jump_moment = time
             self.jump_velocity = 0
             for i in range(self.y, 432):
                 if self.is_green(-self.color_map.map_x + self.x, i + 99) or \
-                        self.is_green(-self.color_map.map_x + self.x + 99, i + 99):
+                        self.is_green(-self.color_map.map_x + self.x + 39, i + 99):
                     self.y = i - 1
                     self.init_y = i - 1
                     break
@@ -98,7 +102,7 @@ class Player(pygame.sprite.Sprite):
 
         # Check collision above
         if self.is_green(-self.color_map.map_x + self.x, self.next_y(time)) or \
-                self.is_green(-self.color_map.map_x + self.x + 99, self.next_y(time)):
+                self.is_green(-self.color_map.map_x + self.x + 39, self.next_y(time)):
             self.jump_moment = time
             self.jump_velocity = 0
             self.is_jumping = 0
