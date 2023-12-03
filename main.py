@@ -85,16 +85,9 @@ class Game:
                 self.player.is_alive = False
 
         current_tick = pygame.time.get_ticks()
-        if self.player.y >= 10:
-            # collision between player and objects on its right (width -> 100, height -> 100)
-            if self.x_to_move_on_map < 0 and self.color_map.image.get_at((-1 * self.color_map.map_x + self.player.x + 100, self.player.y + 99))[1] != 0:
-                self.x_to_move_on_map = 0
-            # collision between player and objects on its left (width -> 100, height -> 100)
-            if self.x_to_move_on_map > 0 and self.color_map.image.get_at((-1 * self.color_map.map_x + self.player.x - 5, self.player.y + 99))[1] != 0:
-                self.x_to_move_on_map = 0
         self.player.jump()
-        self.map.update(self.x_to_move_on_map)
-        self.color_map.update(self.x_to_move_on_map)
+        self.map.update(self.x_to_move_on_map, self.player, self.color_map)
+        self.color_map.update(self.x_to_move_on_map, self.player)
         for enemy in self.enemies:
             enemy.update_enemy(self.player)
         if self.state == "menu" and self.start_button_clicked_time > 0:
