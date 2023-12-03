@@ -81,9 +81,11 @@ class Game:
 
     def update_game(self):
         if self.player.y > 200:
+            print(self.color_map.image.get_at((-1 * self.color_map.map_x + self.player.x - 5, self.player.y + 130)))
             if self.color_map.image.get_at((-1 * self.color_map.map_x + self.player.x - 5, self.player.y + 130))[0] != 0:
                 self.player.is_alive = False
-
+            if self.color_map.image.get_at((-1 * self.color_map.map_x + self.player.x + 100, self.player.y + 130))[2] != 0:
+                self.state = "winning"
         current_tick = pygame.time.get_ticks()
         if self.player.y >= 10:
             # collision between player and objects on its right (width -> 100, height -> 100)
@@ -127,6 +129,15 @@ class Game:
         elif self.state == "game_over":
             
             self.game_display.blit(self.menu.game_over, (400 - (348 / 2), 300 - (236 / 2)))
+        elif self.state == "winning":
+            all_enemies_die = 1
+            for enemy in self.enemies:
+                if enemy.is_alive and not enemy.is_optional:
+                    all_enemies_die = 0
+            if all_enemies_die:
+                self.game_display.blit(self.menu.victory, (400 - ((1500 / 6) / 2), 300 - ((577 / 6) / 2)))
+            else:
+                self.game_display.blit(self.menu.game_over, (400 - (348 / 2), 300 - (236 / 2)))
         self.timer.render(self.game_display)
         pygame.display.flip()
 

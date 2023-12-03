@@ -15,6 +15,7 @@ class Menu(pygame.sprite.Sprite):
         self.right_arrow = pygame.image.load("assets/arrow_button.png")
         self.selection_rect = pygame.Rect(175, 100, 50, 50)
         self.game_over = pygame.image.load("assets/game_over.png")
+        self.victory = pygame.image.load("assets/victory.png")
 
         for player in self.players:
             player["sprite"] = pygame.image.load(player["texture"])
@@ -35,6 +36,8 @@ class Menu(pygame.sprite.Sprite):
         self.right_arrow_rect.topleft = (200, 250)
 
         self.game_over = pygame.transform.scale(self.game_over, (348, 236))
+
+        self.victory = pygame.transform.scale(self.victory, (1500 / 6, 577 / 6))
 
     def update_menu(self):
         pass
