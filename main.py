@@ -98,6 +98,7 @@ class Game:
         elif self.state == "game":
             self.player.update_player()
             if not self.player.is_alive:
+                self.x_to_move_on_map = 0
                 self.state = "game_over"
             for enemy in self.enemies:
                 enemy.update_enemy(self.player)
