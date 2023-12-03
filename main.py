@@ -72,7 +72,22 @@ class Game:
                         self.menu.current_player += 1
                     else:
                         self.menu.current_player = 0
-
+                if self.menu.replay_rect.collidepoint(event.pos) and (self.state == "winning" or self.state == "game_over"):
+                    self.state = "menu"
+                    self.start_button_clicked = 0
+                    self.start_button_clicked_time = 0
+                    enemies_data_new = json.load(open("assets/enemy.json"))
+                    self.enemies.clear()
+                    self.map = Map()
+                    for enemy_one in enemies_data_new:
+                        game.enemies.append(
+                            Enemy(game.map, enemy_one["position"]["x"], enemy_one["position"]["y"], enemy_one["size"]["width"],
+                                  enemy_one["size"]["height"],
+                                  enemy_one["is_optional"], enemy_one["texture"], enemy_one["health"]))
+                    self.color_map = ColorMap()
+                    self.x_to_move_on_map = 0
+                    self.player = Player(100, 430, 40, 100, 'assets/player.png', 'assets/player.png', 10,
+                                         self.color_map)
             if event.type == pygame.MOUSEBUTTONUP:
                 for enemy in self.enemies:
                     enemy.enemy_rect.topleft = (enemy.x + self.map.map_x, enemy.y)
@@ -122,17 +137,19 @@ class Game:
             for enemy in self.enemies:
                 enemy.render_enemy(self.game_display)
         elif self.state == "game_over":
-            
             self.game_display.blit(self.menu.game_over, (400 - (348 / 2), 300 - (236 / 2)))
+            self.game_display.blit(self.menu.replay, (400 - ((1264 / 3) / 2), 450 - ((254 / 3) / 2)))
         elif self.state == "winning":
-            all_enemies_die = 1
+            all_enemies_die = True
             for enemy in self.enemies:
                 if enemy.is_alive and not enemy.is_optional:
-                    all_enemies_die = 0
+                    all_enemies_die = False
             if all_enemies_die:
                 self.game_display.blit(self.menu.victory, (400 - ((1500 / 6) / 2), 300 - ((577 / 6) / 2)))
+                self.game_display.blit(self.menu.replay, (400 - ((1264 / 3) / 2), 450 - ((254 / 3) / 2)))
             else:
                 self.game_display.blit(self.menu.game_over, (400 - (348 / 2), 300 - (236 / 2)))
+                self.game_display.blit(self.menu.replay, (400 - ((1264 / 3) / 2), 450 - ((254 / 3) / 2)))
         self.timer.render(self.game_display)
         pygame.display.flip()
 
