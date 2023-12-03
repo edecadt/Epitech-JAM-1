@@ -18,6 +18,7 @@ class Game:
         pygame.init()
         pygame.display.set_caption('Mario remix')
 
+        self.player_data = json.load(open("assets/players.json"))
         self.game_running = False
         self.game_clock = pygame.time.Clock()
         self.game_display = pygame.display.set_mode((800, 600))
@@ -34,7 +35,7 @@ class Game:
         # var that will be 0 is no key is being pressed to move on the map
         self.x_to_move_on_map = 0
         self.enemies = []
-        self.player = Player(100, 430, 100, 100, 'assets/player.png', 10, self.color_map)
+        self.player = Player(100, 430, 40, 100, 'assets/player.png', 'assets/player.png', 10, self.color_map)
 
     def event_handler(self):
 
@@ -76,14 +77,14 @@ class Game:
                 for enemy in self.enemies:
                     enemy.enemy_rect.topleft = (enemy.x + self.map.map_x, enemy.y)
                     if ((enemy.enemy_rect.collidepoint(event.pos) and self.state == "game" and (enemy.x + self.map.map_x)
-                            - self.player.x - 100 < 50)) and self.player.y <= enemy.y >= self.player.y:
+                            - self.player.x - 40 < 50)) and self.player.y <= enemy.y >= self.player.y:
                         enemy.damage_enemy(self.player.attack_damage)
 
     def update_game(self):
         if self.player.y > 200:
             if self.color_map.image.get_at((-1 * self.color_map.map_x + self.player.x - 5, self.player.y + 130))[0] != 0:
                 self.player.is_alive = False
-            if self.color_map.image.get_at((-1 * self.color_map.map_x + self.player.x + 100, self.player.y + 130))[2] != 0:
+            if self.color_map.image.get_at((-1 * self.color_map.map_x + self.player.x + 40, self.player.y + 130))[2] != 0:
                 self.state = "winning"
         current_tick = pygame.time.get_ticks()
         self.player.jump()
@@ -92,6 +93,8 @@ class Game:
         for enemy in self.enemies:
             enemy.update_enemy(self.player)
         if self.state == "menu" and self.start_button_clicked_time > 0:
+            self.player.texture = pygame.image.load(self.player_data[self.menu.current_player]["move_texture1"])
+            self.player.texture2 = pygame.image.load(self.player_data[self.menu.current_player]["move_texture2"])
             self.start_button_clicked = 1
 
             if current_tick - self.start_button_clicked_time >= 2000:
@@ -101,7 +104,7 @@ class Game:
         #if self.state == "menu":
         #   self.menu.update()
         elif self.state == "game":
-            self.player.update_player()
+            self.player.update_player(self.x_to_move_on_map)
             if not self.player.is_alive:
                 self.x_to_move_on_map = 0
                 self.state = "game_over"

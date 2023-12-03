@@ -2,6 +2,8 @@
   {
     "name": "Enzo",
     "texture": "assets/spriteenzo.png",
+    "move_texture1": "assets/enzo/1.png",
+    "move_texture2": "assets/enzo/2.png",
     "stat": {
 
     }
@@ -9,6 +11,8 @@
   {
     "name": "Ezio",
     "texture": "assets/spritesezio.png",
+    "move_texture1": "assets/ezio/1.png",
+    "move_texture2": "assets/ezio/2.png",
     "stat": {
 
     }
@@ -16,6 +20,8 @@
   {
     "name": "Edgar",
     "texture": "assets/spritesedgar.png",
+    "move_texture1": "assets/edgar/1.png",
+    "move_texture2": "assets/edgar/2.png",
     "stat": {
 
     }
@@ -23,6 +29,8 @@
   {
     "name": "William",
     "texture": "assets/spriteswilliam.png",
+    "move_texture1": "assets/william/1.png",
+    "move_texture2": "assets/william/2.png",
     "stat": {
 
     }
@@ -30,6 +38,8 @@
   {
     "name": "Jean-Baptiste",
     "texture": "assets/spritesjb.png",
+    "move_texture1": "assets/jb/1.png",
+    "move_texture2": "assets/jb/2.png",
     "stat": {
 
     }
@@ -37,6 +47,8 @@
   {
     "name": "lenny",
     "texture": "assets/spriteslenny.png",
+    "move_texture1": "assets/lenny/1.png",
+    "move_texture2": "assets/lenny/2.png",
     "stat": {
 
     }
