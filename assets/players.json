@@ -35,8 +35,8 @@
     }
   },
   {
-    "name": "Ezio",
-    "texture": "assets/spritesjb.png",
+    "name": "lenny",
+    "texture": "assets/spriteslenny.png",
     "stat": {
 
     }
