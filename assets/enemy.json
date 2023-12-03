@@ -3,7 +3,7 @@
     "name": "Kick-Off Sokoban",
     "texture": "assets/enemy_sokoban_kickoff.png",
     "position": {
-      "x": 600,
+      "x": 1400,
       "y": 430
     },
     "health": 100,
@@ -17,8 +17,8 @@
     "name": "Kick-Off MyLS",
     "texture": "assets/enemy_my_ls.png",
     "position": {
-      "x": 800,
-      "y": 430
+      "x": 860,
+      "y": 273
     },
     "health": 75,
     "size": {
@@ -31,7 +31,7 @@
     "name": "Project Organized",
     "texture": "assets/enemy_organized.png",
     "position": {
-      "x": 1400,
+      "x": 620,
       "y": 430
     },
     "health": 150,

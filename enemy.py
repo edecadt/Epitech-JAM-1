@@ -24,7 +24,8 @@ class Enemy(pygame.sprite.Sprite):
         self.enemy_rect.topleft = (self.x, self.y)
 
     def update_enemy(self, player):
-        if player.x >= self.x + self.map.map_x - self.width:
+        if (player.x >= self.x + self.map.map_x - self.width and
+                self.y - self.height <= player.y <= self.y + self.height and self.is_alive):
             player.damage_player(100)
         current_time = pygame.time.get_ticks()
 
