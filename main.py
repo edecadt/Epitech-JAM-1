@@ -125,7 +125,8 @@ class Game:
             for enemy in self.enemies:
                 enemy.render_enemy(self.game_display)
         elif self.state == "game_over":
-            self.game_display.blit(self.menu.game_over, (400 - 466 / 4, 400))
+            
+            self.game_display.blit(self.menu.game_over, (400 - (348 / 2), 300 - (236 / 2)))
         self.timer.render(self.game_display)
         pygame.display.flip()
 

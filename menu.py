@@ -34,9 +34,7 @@ class Menu(pygame.sprite.Sprite):
         self.right_arrow_rect = self.right_arrow.get_rect()
         self.right_arrow_rect.topleft = (200, 250)
 
-        self.game_over = pygame.transform.scale(self.game_over, (348 / 2, 236 / 2))
-        self.game_over_rect = self.game_over.get_rect()
-        self.game_over_rect.topleft = (400 - 466 / 4, 400)
+        self.game_over = pygame.transform.scale(self.game_over, (348, 236))
 
     def update_menu(self):
         pass
