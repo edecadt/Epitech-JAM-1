@@ -27,14 +27,6 @@ class Enemy(pygame.sprite.Sprite):
         if (player.x >= self.x + self.map.map_x - self.width and
                 self.y - self.height <= player.y <= self.y + self.height and self.is_alive):
             player.damage_player(100)
-        current_time = pygame.time.get_ticks()
-
-        elapsed_time = current_time - self.animation_start_time
-        if elapsed_time >= self.animation_interval:
-            self.animation_start_time = current_time
-
-        # TODO: Add animation here
-        self.enemy_clock.tick(60)
 
     def draw_health_bar(self, screen):
         bar_width = self.width
