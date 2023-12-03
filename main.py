@@ -86,8 +86,8 @@ class Game:
                                   enemy_one["is_optional"], enemy_one["texture"], enemy_one["health"]))
                     self.color_map = ColorMap()
                     self.x_to_move_on_map = 0
-                    self.player = Player(100, 430, 100, 100, 'assets/player.png', 10, self.color_map)
-
+                    self.player = Player(100, 430, 40, 100, 'assets/player.png', 'assets/player.png', 10,
+                                         self.color_map)
             if event.type == pygame.MOUSEBUTTONUP:
                 for enemy in self.enemies:
                     enemy.enemy_rect.topleft = (enemy.x + self.map.map_x, enemy.y)
