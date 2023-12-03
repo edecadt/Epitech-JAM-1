@@ -47,8 +47,10 @@ class Game:
                 if event.key == pygame.K_SPACE and self.state == "game":
                     self.player.jump_setup()
                 if event.key == pygame.K_d and self.state == "game":
+                    self.player.reverse = 0
                     self.x_to_move_on_map = -5
                 if event.key == pygame.K_q and self.state == "game":
+                    self.player.reverse = 1
                     self.x_to_move_on_map = 5
             if event.type == pygame.KEYUP:
                 if (event.key == pygame.K_d and self.x_to_move_on_map == -5) or \
