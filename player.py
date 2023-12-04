@@ -52,7 +52,7 @@ class Player(pygame.sprite.Sprite):
         if self.health <= 0:
             self.is_alive = False
             return
-        self.x -= self.speed * 5
+        self.x -= self.speed * 5 - 2 * self.speed * 5 * self.reverse
         self.can_move = 0
 
     def jump_setup(self):
